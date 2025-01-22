@@ -5,13 +5,14 @@ import { useGlobals } from "@storybook/preview-api";
 import { PARAM_KEYS } from "./constants";
 
 import type {
-  Renderer, 
+  Renderer,
   StoryContext,
 } from "@storybook/types";
 
 export type ThemeWithName = MantineThemeOverride & {
   id: string;
   name?: string;
+  mantineProviderProps?: Partial<Omit<MantineProviderProps, "children" | "theme">>;
 };
 
 type Props = {
@@ -40,7 +41,7 @@ export const withMantineThemes = (props: Props, ...rest: any) => {
               value: eachTheme.id,
             })),
             [PARAM_KEYS.THEME_ID]: props.themes?.[0]?.id,
-            [PARAM_KEYS.PROVIDER_PROPS]: props?.mantineProviderProps,
+            [PARAM_KEYS.PROVIDER_PROPS]: props?.themes?.[0]?.mantineProviderProps || props?.mantineProviderProps,
           });
         } catch (error) {
           console.log("error calling update globals");
